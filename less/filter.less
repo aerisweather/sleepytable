@@ -1,0 +1,31 @@
+// Filter Plugin
+.sleepytable-filter-row {
+	.sleepytable-gradient-inset (@filter0, @filter1, @filter2);
+
+	th {
+		padding: 4px;
+
+		input, select {
+			margin-bottom: 0px;
+		}
+	}
+}
+
+.sleepytable-filter-row input,
+.sleepytable-filter-row select {
+	height: auto !important;
+	width: 95%;
+	box-sizing: border-box;
+}
+
+//Mixins
+.sleepytable-gradient-inset (@color0: #F5F5F5, @color1: #EEE, @color2: #FFF) {
+	background: @color1;
+	background: -moz-linear-gradient(top, @color0 0%, @color1 25%, @color2 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @color0), color-stop(25%, @color1), color-stop(100%, @color2));
+	background: -webkit-linear-gradient(top, @color0 0%, @color1 25% ,@color2 100%);
+	background: -o-linear-gradient(top, @color0 0%, @color1 25%, @color2 100%);
+	background: -ms-linear-gradient(top, @color0 0%, @color1 25%, @color2 100%);
+	background: linear-gradient(to bottom, @color0 0%, @color1 25%, @color2 100%);
+	filter: ~"progid:DXImageTransform.Microsoft.gradient( startColorstr='@{color0}', endColorstr='@{color2}',GradientType=0)";
+}

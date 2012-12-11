@@ -1,0 +1,39 @@
+//-------------
+// - Plugins  -
+//-------------
+//Sorting Plugin
+@sort0: darken(@sort1, 5%);
+@sort1: #4982b7; 
+@sort2: #135a9c;
+@sortIconOffset: -16px;
+@sortTextColor: #F0F0F0;
+
+@sortActive0: lighten(#ffc700, 10%);
+@sortActive1: lighten(@sortActive0, 10%);
+@sortActive2: darken(#ffc700, 10%);
+@sortIconOffsetActive: 0px;
+@sortTextColorActive: #222;
+
+//Filter
+@filter0: desaturate(@sort0, 10%);
+@filter1: lighten(@filter0, 30%);
+@filter2: #FFFFFF;
+
+//Pager
+@pagerBorderColor: #CCC;
+@pagerBackgroundColor: #EEE;
+@pagerTextColor: #222;
+
+@pagerBorderColorHover: @sort0;
+@pagerBackgroundColorHover: lighten(@sort0, 30%);
+@pagerTextColorHover: @sort0;
+
+@pagerBorderColorDisabled: #DDD;
+@pagerBackgroundColorDisabled: #EEE;
+@pagerTextColorDisabled: #CCC ;
+
+@import "../main.less";
+// Plugins - Feel free to comment out the ones you aren't using.
+@import "../sort.less";
+@import "../filter.less";
+@import "../pager.less";

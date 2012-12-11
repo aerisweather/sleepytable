@@ -1,0 +1,21 @@
+{
+	"name"        : "SleepyTable",
+	"repo"        : "hamweather/sleepytable",
+	"description" : "A table that interacts with a REST API to fetch paged, sorted, and filtered data.",
+	"version"     : "0.1",
+	"keywords"    : ["table", "sleepy", "rest", "api", "page", "pagination", "filter", "sort"],
+	"main"        : "jquery.sleepytable.js",
+	"scripts"     : [
+		"jquery.sleepytable.js", 
+		"plugins/jquery.sleepytable.plugin.filter.js",
+		"plugins/jquery.sleepytable.plugin.pager.js", 
+		"plugins/jquery.sleepytable.plugin.sort.js"
+	],
+	"styles"      : ["grey.css"],
+	"images"      : ["assets/arrow-sprite.png"],
+	"dependencies": {
+        "jquery": "~1.7.1"
+    },
+	"license"     : "MIT",
+	"_comment"    : "File created by following the guidelines provided by: https://github.com/component/component/wiki/Spec"
+}
