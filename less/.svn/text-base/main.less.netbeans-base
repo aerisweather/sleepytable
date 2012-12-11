@@ -1,3 +1,0 @@
-.sleepytable-loading td, .sleepytable-empty td {
-	text-align: center;
-}
