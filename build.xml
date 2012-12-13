@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SleepyTable" basedir=".">
+	<property name="root" location="" />
+	<property name="baseName" location="jquery.sleepytable" />
+	<property name="lessSrc.dir" location="less/themes/"/>
+	<property name="css.dir" location="css"/>
+	<property name="tool.less" location="${root}/tools/less-rhino-1.3.1.js"/>
+	<property name="tool.rhino" location="${root}/tools/rhino-js-14.jar"/>
+	<property name="tool.compressor"  location="${root}/tools/yuicompressor-2.4.2.jar"/>
+	<!-- Thanks to: http://stackoverflow.com/questions/6909106/ant-script-to-compile-all-css-less-files-in-a-dir-and-subdirs-with-rhino -->
+	<target name="less" description="Convert LESS to CSS then concatenate and Minify any stylesheets">
+
+		<echo message="Converting LESS to CSS..."/>
+		<!-- Clear the former compiled css files -->
+		<delete includeemptydirs="true">
+			  <fileset dir="${css.dir}" includes="*.css, **/*.css" defaultexcludes="false"/>
+		</delete>
+
+		<apply dir="${css.dir}" executable="java" parallel="false" failonerror="true">
+			<!-- Give the input bundle of less files-->
+			<fileset dir="${lessSrc.dir}">
+				<include name="*.less"/>
+			</fileset>
+			<arg value="-jar" />
+			<arg path="${tool.rhino}" />
+			<arg path="${tool.less}" />
+			<srcfile/>
+			<!-- Output the compiled css file with corresponding name -->
+			<mapper type="glob" from="*.less" to="${css.dir}/*.css"/>
+			<targetfile/>
+		</apply>
+	</target>
+	
+	<target name="clean" description="Clear compiled JS">
+		<delete file="jquery.sleepytable.cat.js"/>
+		<delete file="jquery.sleepytable.min.js"/>
+	</target>
+	<target name="concat" description="Concatenate Javascript into a single file">
+		<concat destfile="${baseName}.cat.js" encoding="UTF-8">
+			<filelist dir="" files="
+				jquery.sleepytable.js,
+				plugins/jquery.sleepytable.plugin.filter.js,
+				plugins/jquery.sleepytable.plugin.pager.js,
+				plugins/jquery.sleepytable.plugin.sort.js
+			"/>
+		</concat>
+	</target>
+	<target name="min" description="Minify concatenated files">
+		<apply executable="java" parallel="false" dest="${root}" taskname="yui">
+			<fileset file="${baseName}.cat.js"/>
+			
+			<arg line="-jar"></arg>
+			<arg path="${tool.compressor}"></arg>
+			<arg line="--charset UTF-8"/>
+			<arg line="-v"></arg>
+			<srcfile/>
+			<arg line="-o"></arg>
+			<mapper type="glob" from="*.cat.js" to="*.min.js"></mapper>
+			<targetfile/>
+	   </apply>
+	   
+	</target>
+	<target name="build" depends="clean, less, concat, min" description="Compile Less and Javascript">
+		<delete file="jquery.sleepytable.cat.js"/>
+	</target>
+</project>
