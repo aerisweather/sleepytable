@@ -178,11 +178,11 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			button.enabled = true;
 			button.value = value;
 			this.$element.find(button.selector)
-				.removeClass('disabled')
 				.off('click.SleepyTable.plugin.pager')
 				.on('click.SleepyTable.plugin.pager', function() {
 					tableObj.config.$element.SleepyTable(button.method);
-				});
+				})
+				.parent().removeClass('disabled');
 		},
 		
 		disableButton : function(tableObj, buttonId) {
@@ -191,8 +191,8 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			button.enabled = false;
 			button.value = null;
 			this.$element.find(button.selector)
-				.addClass('disabled')
-				.off('click.SleepyTable.plugin.pager');
+				.off('click.SleepyTable.plugin.pager')
+				.parent().addClass('disabled');
 		}
 	}
 })(jQuery);
