@@ -39,8 +39,9 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 		$limitElement   : null,
 		
 		displayTemplate : 'Page {pageNumber} ({startRow} to {endRow})',
-		//displayTemplate : '{startRow} to {endRow} <span class="description">(of {totalRows})</span>',
 		loadingTemplate : 'Loading Data...',
+
+		preventEventBubbling: true,
 		
 		cssGoto    : '.goto-page', // Dropdown to go to a specific page.
 		cssDisplay : '.page-display', // A textual representation of the current page.
@@ -177,10 +178,14 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			var button = this.buttons[buttonId];
 			button.enabled = true;
 			button.value = value;
+			pagerPlugin = this;
 			this.$element.find(button.selector)
 				.off('click.SleepyTable.plugin.pager')
-				.on('click.SleepyTable.plugin.pager', function() {
+				.on('click.SleepyTable.plugin.pager', function(e) {
 					tableObj.config.$element.SleepyTable(button.method);
+					if(pagerPlugin.preventEventBubbling == true) {
+						e.preventDefault();
+					}
 				})
 				.parent().removeClass('disabled');
 		},
