@@ -61,24 +61,24 @@
   right: 5px;
 }
 .sleepytable-default .icon-sort {
-  background-image: url("/js/jquery.sleepytable/assets/arrow-sprite.png");
+  background-image: url("../assets/arrow-sprite.png");
   width: 16px;
   height: 16px;
 }
 .sleepytable-default .icon-sort-both {
-  background-image: url("/js/jquery.sleepytable/assets/arrow-sprite.png");
+  background-image: url("../assets/arrow-sprite.png");
   width: 16px;
   height: 16px;
   background-position: 0px 0px;
 }
 .sleepytable-default .icon-sort-asc {
-  background-image: url("/js/jquery.sleepytable/assets/arrow-sprite.png");
+  background-image: url("../assets/arrow-sprite.png");
   width: 16px;
   height: 16px;
   background-position: -16px 0px;
 }
 .sleepytable-default .icon-sort-desc {
-  background-image: url("/js/jquery.sleepytable/assets/arrow-sprite.png");
+  background-image: url("../assets/arrow-sprite.png");
   width: 16px;
   height: 16px;
   background-position: -32px 0px;
