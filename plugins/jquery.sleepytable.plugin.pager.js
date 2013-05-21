@@ -71,11 +71,21 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			}
 			if(this.$limitElement == null) {
 				this.$limitElement = this.$element.find(this.cssSize);
+				var thisPlugin = this;
 				this.$limitElement
 					.off('change.SleepyTable.plugin.pager')
-					.on('change.SleepyTable.plugin.pager', function() {
+					.on('change.SleepyTable.plugin.pager', function(e) {
+						tableObj.config.currentPageNumber = 1;
+						thisPlugin.getFetchParams(tableObj, {});
 						tableObj.config.$element.SleepyTable('clearPages');
+						tableObj.hook('pluginPagerChange');
+						e.preventDefault();
 					});
+				this.$limitElement.parent()
+					.off('click.SleepyTable.plugin.pager')
+					.on('click.SleepyTable.plugin.pager', function(e) {
+						e.preventDefault();
+					})
 			}
 			this.pageLoading(tableObj);
 		},
@@ -148,7 +158,6 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 								break;
 						}
 					}
-					tableObj.currentPageNumber
 				}
 				
 			}
@@ -178,16 +187,18 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			var button = this.buttons[buttonId];
 			button.enabled = true;
 			button.value = value;
-			pagerPlugin = this;
+			var pagerPlugin = this;
 			this.$element.find(button.selector)
 				.off('click.SleepyTable.plugin.pager')
 				.on('click.SleepyTable.plugin.pager', function(e) {
 					tableObj.config.$element.SleepyTable(button.method);
+					tableObj.hook('pluginPagerChange');
 					if(pagerPlugin.preventEventBubbling == true) {
 						e.preventDefault();
 					}
 				})
 				.parent().removeClass('disabled');
+			
 		},
 		
 		disableButton : function(tableObj, buttonId) {

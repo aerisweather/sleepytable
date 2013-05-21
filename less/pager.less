@@ -1,5 +1,5 @@
 // Pager Plugin
-.sleepytable-pager {
+&.sleepytable-pager {
 	list-style: none;
 	text-align: center;
 	
@@ -37,8 +37,17 @@
 		color: @pagerTextColorDisabled;
 		cursor: auto;
 	}
+
+	.page-selection {
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+
 	form {
-		padding: 4px 8px;
+		padding: 0px;
+		margin: 0px;
+		border: none;
+		background: transparent;
 	}
 	form input, 
 	form textarea, 
@@ -46,5 +55,7 @@
 		display: inline-block;
 		width: auto;
 		margin-bottom: 0px !important;
+		padding: 2px;
+		height: auto;
 	}
 }

@@ -106,18 +106,18 @@
   width: 95%;
   box-sizing: border-box;
 }
-.sleepytable-default .sleepytable-pager {
+.sleepytable-default.sleepytable-pager {
   list-style: none;
   text-align: center;
 }
-.sleepytable-default .sleepytable-pager * {
+.sleepytable-default.sleepytable-pager * {
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
 }
-.sleepytable-default .sleepytable-pager > span,
-.sleepytable-default .sleepytable-pager form {
+.sleepytable-default.sleepytable-pager > span,
+.sleepytable-default.sleepytable-pager form {
   display: inline-block;
   border: 1px solid #cccccc;
   padding: 8px;
@@ -125,35 +125,44 @@
   background-color: #eeeeee;
   color: #222222;
 }
-.sleepytable-default .sleepytable-pager .first:hover,
-.sleepytable-default .sleepytable-pager .prev:hover,
-.sleepytable-default .sleepytable-pager .next:hover,
-.sleepytable-default .sleepytable-pager .last:hover {
+.sleepytable-default.sleepytable-pager .first:hover,
+.sleepytable-default.sleepytable-pager .prev:hover,
+.sleepytable-default.sleepytable-pager .next:hover,
+.sleepytable-default.sleepytable-pager .last:hover {
   border: 1px solid #0088cc;
   background-color: #8eb7cc;
   color: #0088cc;
   cursor: pointer;
 }
-.sleepytable-default .sleepytable-pager .first.disabled,
-.sleepytable-default .sleepytable-pager .first.disabled:hover,
-.sleepytable-default .sleepytable-pager .prev.disabled,
-.sleepytable-default .sleepytable-pager .prev.disabled:hover,
-.sleepytable-default .sleepytable-pager .next.disabled,
-.sleepytable-default .sleepytable-pager .next.disabled:hover,
-.sleepytable-default .sleepytable-pager .last.disabled,
-.sleepytable-default .sleepytable-pager .last.disabled:hover {
+.sleepytable-default.sleepytable-pager .first.disabled,
+.sleepytable-default.sleepytable-pager .first.disabled:hover,
+.sleepytable-default.sleepytable-pager .prev.disabled,
+.sleepytable-default.sleepytable-pager .prev.disabled:hover,
+.sleepytable-default.sleepytable-pager .next.disabled,
+.sleepytable-default.sleepytable-pager .next.disabled:hover,
+.sleepytable-default.sleepytable-pager .last.disabled,
+.sleepytable-default.sleepytable-pager .last.disabled:hover {
   border: 1px solid #dddddd;
   background-color: #eeeeee;
   color: #cccccc;
   cursor: auto;
 }
-.sleepytable-default .sleepytable-pager form {
-  padding: 4px 8px;
+.sleepytable-default.sleepytable-pager .page-selection {
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
-.sleepytable-default .sleepytable-pager form input,
-.sleepytable-default .sleepytable-pager form textarea,
-.sleepytable-default .sleepytable-pager form select {
+.sleepytable-default.sleepytable-pager form {
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  background: transparent;
+}
+.sleepytable-default.sleepytable-pager form input,
+.sleepytable-default.sleepytable-pager form textarea,
+.sleepytable-default.sleepytable-pager form select {
   display: inline-block;
   width: auto;
   margin-bottom: 0px !important;
+  padding: 2px;
+  height: auto;
 }

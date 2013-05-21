@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SleepyTable Plugin Demo: History</title>
+		<link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+		<link href="../css/grey.css" rel="stylesheet" type="text/css" />
+		
+		<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+		
+		<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+		
+		<script type="text/javascript" src="../jquery.sleepytable.js"></script>
+		
+		<script type="text/javascript" src="../plugins/jquery.sleepytable.plugin.filter.js"></script>
+		<script type="text/javascript" src="../plugins/jquery.sleepytable.plugin.pager.js"></script>
+		<script type="text/javascript" src="../plugins/jquery.sleepytable.plugin.sort.js"></script>
+		<script type="text/javascript" src="../plugins/jquery.sleepytable.plugin.history.js"></script>
+		<script type="text/javascript" src="../plugins/jquery.sleepytable.plugin.tester.js"></script>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	</head>
+	<body>
+		<h3 id="examples">SleepyTable Plugin Demo: History</h3>
+		
+		<p><a href="fake.html">Test link, same domain</a></p>
+		<p><a href="http://www.google.com">Test link, external domain (Google)</a></p>
+				
+		<p>
+			All source code to run the demos is included after the table in the source code. This page, along 
+			with many other web pages and web apps, is built with 
+			<a href="http://twitter.github.com/bootstrap" target="_blank">Twitter Bootstrap</a> and the plugin's
+			styles are designed to enhance what is included with Bootstrap.
+		<h4>Full Demo - Sort, Filter, Pager Plugins</h4>
+		<div class="row">
+			<div class="span3">
+				This demos displays the full functionality of the plugin. It is using the 
+				<a target="_blank" href="http://www.hamweather.com/products/aeris-api/">Aeris Weather API</a> to fetch current 
+				weather observations near Minneapolis, MN.
+				<h5>Plugins:</h5>
+				<dl>
+					<dt>Sort</dt><dd>The sort plugin data is passed to the Aeris API with the request variable
+						<code>sort=[varName]:[direction],[varName2 ...</code>
+					<dt>Filter</dt><dd>The filter plugin data is passed to the Aeris API with the request variable
+						<code>query=[varName]:[direction],[varName2 ...</code>
+					<dt>Pager</dt><dd>The pager plugin triggers the paging methods of the core plugin to move to the
+						next page using the API's limit/skip parameters
+						<code>query=[varName]:[direction],[varName2 ...</code>
+				</dl>
+
+			</div>
+			<div class="span9">
+				<table id="table-full" class="table table-striped">
+					<thead>
+						<tr>
+							<th data-src="response[].relativeTo.distanceMI">Distance (Mi.)</th>
+							<th data-src="response[].place.name">Name</th>
+							<th data-src="response[].ob.tempF" data-var-name="temp" data-var-filter="temp">Temp (&deg;F)</th>
+							<th data-src="response[].ob.windMPH" data-var-name="wind"data-var-filter="wind">Wind (MPH)</th>
+							<th data-src="response[].ob.dateTimeISO">Time</th>
+						</tr>
+					</thead>
+				</table>
+
+				<div id="pager-full" class="sleepytable-default sleepytable-pager pagination pagination-centered">
+					<ul>
+						<li><a class="first" href="#">|&laquo;</a></li>
+						<li><a class="prev" href="#">&laquo;</a></li>
+						<li><a class="page-display" href="#"></a></li>
+						<li><a class="next" href="#">&raquo;</a></li>
+						<li>
+							<a class="page-selection" href="#">
+								<form>
+									<select class="page-size"> 
+										<option selected="selected" value="10">10</option> 
+										<option value="20">20</option> 
+										<option value="30">30</option> 
+										<option value="40">40</option> 
+									</select> 
+									per page
+								</form> 
+							</a>
+						</li>
+					</ul>
+				</div>
+				<script type="text/javascript">
+					$("#table-full").SleepyTable({
+						debug: true,
+						url: 'http://api.aerisapi.com/observations/closest/?p=44.979,-93.263&radius=10000&limit={limit}&skip={offset}&client_id=wgE96YE3scTQLKjnqiMsv&client_secret=AFSW0TwcKnTSak6MxGivo4mHO8MUUWAFBp6BhXa2',
+						plugins: ['history', 'sort', 'filter', 'pager'],
+						pluginOptions: {
+							sort: {
+								columnOptions: {
+									0: { enabled: false },
+									4: { enabled : false }
+								}
+							},
+							pager: {
+								$element: $('#pager-full')
+							}
+						}
+					});
+				</script>
+			</div>
+		</div>
+	</body>
+</html>
