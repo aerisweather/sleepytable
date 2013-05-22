@@ -52,7 +52,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 		//Private
 		$sortRow      : null,
 		$sortHeaders  : [],
-		publicMethods : ['advance', 'clear', 'init', 'setAppend'],
+		publicMethods : ['advance', 'clear', 'init', 'setAppend', 'setSort'],
 
 		init: function(tableObj) {
 			var sorterPlugin,
@@ -60,7 +60,8 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 				i,
 				orderObj,
 				$icon,
-				varName;
+				varName,
+				thisPlugin = this;;
 			//Assume sorting row is the first set of headers.
 			this.$sortRow = config.$element.find('thead tr').first().addClass(this.cssSorterRow),
 			this.$sortHeaders = this.$sortRow.find('th');
@@ -116,7 +117,6 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 							.on('click.SleepyTable.plugin.sort', function(event) { 
 								if (eval('event.'+sorterPlugin.additionalKey)) {
 									config.$element.SleepyTable('plugin.sort.advance', i, event);
-
 								}
 								else {
 									var direction = sorterPlugin.columnOptions[i].direction;
@@ -124,6 +124,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 									config.$element.SleepyTable('plugin.sort.setAppend', i, direction, false);
 									config.$element.SleepyTable('plugin.sort.advance', i, event);
 								}
+								config.$element.SleepyTable('plugin.history.sortChange', thisPlugin.currentOrder);
 							})
 							//IE Disable text selection (should be done with CSS in other browsers)
 							.off('onselectstart.SleepyTable.plugin.sort')
@@ -140,7 +141,14 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			this.init(tableObj);
 		},
 		
-		getFetchParams : function(tableObj, data) {
+		getFetchParams : function(tableObj, data, dataKeyValue, dataDelimeter) {
+			if(dataKeyValue == undefined) {
+				dataKeyValue = this.dataKeyValue;
+			}
+			if(dataDelimeter == undefined) {
+				dataDelimeter = this.dataDelimeter;
+			}
+			
 			if(this.debug) {
 				tableObj.debug('Building Sort Variables:');
 				tableObj.debug(data);
@@ -154,6 +162,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			var columnId, direction, varName, $header;
 
 			for (i in this.currentOrder) {
+				console.log('Looping through current order');
 				columnId = this.currentOrder[i].column,
 				direction = this.currentOrder[i].value,
 				varName = this.currentOrder[i].varName,
@@ -161,7 +170,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 
 				if ($header.hasClass(this.cssSortActive)) {
 					if(this.debug) tableObj.debug(' - Column '+columnId+': '+varName);
-					data[this.dataVariable] += varName+this.dataKeyValue+direction+this.dataDelimeter;
+					data[this.dataVariable] += varName+dataKeyValue+direction+dataDelimeter;
 				}
 			}
 			return data;
@@ -264,6 +273,14 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			if (updateData !== false) {
 				config.$element.SleepyTable('clearPages');
 			}
+		},
+		
+		setSort: function(tableObj, currentOrder) {
+			console.log('setSort sort');
+			console.log(currentOrder);
+			this.currentOrder = currentOrder;
+			this.init(tableObj);
+			tableObj.clearPagesActual();
 		}
 	}
 })(jQuery);

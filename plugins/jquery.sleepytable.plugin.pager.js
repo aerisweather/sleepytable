@@ -47,6 +47,8 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 		cssDisplay : '.page-display', // A textual representation of the current page.
 		cssSize    : '.page-size', // A selector of how many elements the current page should have.
 		
+		publicMethods : ['setLimit'],
+		
 		init: function(tableObj) {
 			if(this.$element == undefined || this.$element.length == 0)
 				if(this.debug) tableObj.debug('No paging element found');
@@ -78,7 +80,13 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 						tableObj.config.currentPageNumber = 1;
 						thisPlugin.getFetchParams(tableObj, {});
 						tableObj.config.$element.SleepyTable('clearPages');
-						tableObj.hook('pluginPagerChange');
+						tableObj.config.$element.SleepyTable(
+							'plugin.history.pagerChange', 
+							{
+								limit: tableObj.config.limit,
+								page: 1
+							}
+						);
 						e.preventDefault();
 					});
 				this.$limitElement.parent()
@@ -192,13 +200,18 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 				.off('click.SleepyTable.plugin.pager')
 				.on('click.SleepyTable.plugin.pager', function(e) {
 					tableObj.config.$element.SleepyTable(button.method);
-					tableObj.hook('pluginPagerChange');
+					tableObj.config.$element.SleepyTable(
+						'plugin.history.pagerChange',
+						{
+							limit: tableObj.config.limit,
+							page: parseInt(tableObj.config.currentPageNumber)
+						}
+					);
 					if(pagerPlugin.preventEventBubbling == true) {
 						e.preventDefault();
 					}
 				})
 				.parent().removeClass('disabled');
-			
 		},
 		
 		disableButton : function(tableObj, buttonId) {
@@ -209,6 +222,13 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			this.$element.find(button.selector)
 				.off('click.SleepyTable.plugin.pager')
 				.parent().addClass('disabled');
+		},
+		
+		setLimit: function(tableObj, limit) {
+			console.log(limit);
+			console.log("Setting pager limit to "+limit);
+			this.$limitElement.val(limit);
+			console.log(this.$limitElement);
 		}
 	}
 })(jQuery);

@@ -31,7 +31,8 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			var config = tableObj.config,
 				$thead,
 				$filterRow,
-				$th;
+				$th,
+				thisPlugin = this;
 
 			if (config.$headers.length !== 0) {
 				$thead = config.$element.find('thead').first();
@@ -140,6 +141,10 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 									console.log('Timout running with: '+ value);
 									config.$element.SleepyTable('plugin.filter.set', i, value);
 									this.filterTimer = null;
+									config.$element.SleepyTable(
+										'plugin.history.filterChange', thisPlugin.getFetchParams(tableObj, {}, true)
+									);
+									
 								}
 							, filterPlugin.sleepTime);
 						});
@@ -158,9 +163,16 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			this.init(tableObj);
 		},
 		
-		getFetchParams : function(tableObj, data) {
+		getFetchParams : function(tableObj, data, columnIdValueMode) {
 			var config = tableObj.config,
 				filterPlugin;
+				
+			if(data == undefined) {
+				data = {};
+			}
+			if(columnIdValueMode == undefined) {
+				columnIdValueMode = false;
+			}
 				
 			if(this.debug) {
 				tableObj.debug('Filter: ');
@@ -190,10 +202,16 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 						else {
 							//Throw error, don't know how to sort this column.
 						}
-						data[varName] = value;
+						if(columnIdValueMode) {
+							data[columnId] = value;
+						}
+						else {
+							data[varName] = value;
+						}
 					}
 				});
 			}
+			console.log(data);
 			return data;
 		},
 		
