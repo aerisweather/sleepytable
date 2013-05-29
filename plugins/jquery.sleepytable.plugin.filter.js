@@ -39,7 +39,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 				$thead.find('tr.'+this.cssFilterRow).remove();
 				$filterRow = $('<tr></tr>').addClass(this.cssFilterRow);
 				
-				filterPlugin = this;
+				var filterPlugin = this;
 				config.$headers.each(function(i, elem) {
 					$th = $('<th></th>');
 					if (filterPlugin.columnOptions[i] == undefined) filterPlugin.columnOptions[i] = {};
@@ -134,11 +134,11 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 								clearTimeout(this.filterTimer);
 								this.filterTimer = null;
 							}
-							console.log('Setting value to: '+$(this).val());
+							if(filterPlugin.debug) tableObj.debug('Setting value to: '+$(this).val());
 							var value = $(this).val();
 							this.filterTimer = setTimeout(
 								function() {
-									console.log('Timout running with: '+ value);
+									if(filterPlugin.debug) tableObj.debug('Timout running with: '+ value);
 									config.$element.SleepyTable('plugin.filter.set', i, value);
 									this.filterTimer = null;
 									config.$element.SleepyTable(
@@ -211,7 +211,6 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 					}
 				});
 			}
-			console.log(data);
 			return data;
 		},
 		

@@ -162,7 +162,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			var columnId, direction, varName, $header;
 
 			for (i in this.currentOrder) {
-				console.log('Looping through current order');
+				if(this.debug) tableObj.debug('Looping through current order');
 				columnId = this.currentOrder[i].column,
 				direction = this.currentOrder[i].value,
 				varName = this.currentOrder[i].varName,
@@ -276,8 +276,6 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 		},
 		
 		setSort: function(tableObj, currentOrder) {
-			console.log('setSort sort');
-			console.log(currentOrder);
 			this.currentOrder = currentOrder;
 			this.init(tableObj);
 			tableObj.clearPagesActual();

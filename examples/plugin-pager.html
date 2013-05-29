@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>SleepyTable Plugin Demo: History</title>
+		<title>SleepyTable Plugin Demo: Pager</title>
 		<link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
 		<link href="../css/grey.css" rel="stylesheet" type="text/css" />
 		
@@ -14,13 +14,12 @@
 		<script type="text/javascript" src="../plugins/jquery.sleepytable.plugin.filter.js"></script>
 		<script type="text/javascript" src="../plugins/jquery.sleepytable.plugin.pager.js"></script>
 		<script type="text/javascript" src="../plugins/jquery.sleepytable.plugin.sort.js"></script>
-		<script type="text/javascript" src="../plugins/jquery.sleepytable.plugin.history.js"></script>
 		<script type="text/javascript" src="../plugins/jquery.sleepytable.plugin.tester.js"></script>
 		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	</head>
 	<body>
-		<h3 id="examples">SleepyTable Plugin Demo: History</h3>
+		<h3 id="examples">SleepyTable Plugin Demo: Pager</h3>
 		
 		<p><a href="fake.html">Test link, same domain</a></p>
 		<p><a href="http://www.google.com">Test link, external domain (Google)</a></p>
@@ -65,7 +64,7 @@
 					<ul>
 						<li><a class="first" href="#">|&laquo;</a></li>
 						<li><a class="prev" href="#">&laquo;</a></li>
-						<li><a class="page-display"></a></li>
+						<li><a class="page-display" href="#"></a></li>
 						<li><a class="next" href="#">&raquo;</a></li>
 						<li>
 							<a class="page-selection" href="#">
@@ -86,7 +85,7 @@
 					$("#table-full").SleepyTable({
 						debug: false,
 						url: 'http://api.aerisapi.com/observations/closest/?p=44.979,-93.263&radius=10000&limit={limit}&skip={offset}&client_id=wgE96YE3scTQLKjnqiMsv&client_secret=AFSW0TwcKnTSak6MxGivo4mHO8MUUWAFBp6BhXa2',
-						plugins: ['history', 'sort', 'filter', 'pager'],
+						plugins: ['sort', 'filter', 'pager'],
 						pluginOptions: {
 							sort: {
 								columnOptions: {

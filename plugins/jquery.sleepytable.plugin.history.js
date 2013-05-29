@@ -4,6 +4,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 
 	$.fn.SleepyTable.plugins.history =  {
 		
+		debug: false,
 		keyDelimeter  : '|',
 		valueDelimeter: '=',
 		historyData   : {},
@@ -11,13 +12,10 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 		publicMethods : ['pagerChange', 'filterChange', 'sortChange'],
 		
 		init: function(tableObj) {
-			console.log(tableObj);
 			var thisPlugin = this;
 			window.addEventListener("popstate", function(e) {
 				var location = document.location;
 				var state = e.state;
-				console.log('History state');
-				console.log(state);
 				thisPlugin.applyStateObject(tableObj, state);
 			});
 			
@@ -43,25 +41,32 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 		},
 		
 		applyStateObject: function(tableObj, stateObject) {
-			console.log('Applying state object?');
+			if(this.debug) 
+				tableObj.debug('Applying state object?');
 			if(typeof stateObject === 'object' && stateObject != null) {
-				console.log('-Applying state object');
+				if(this.debug) tableObj.debug('-Applying state object');
 				if(stateObject.sort != undefined) {
 					this.historyData.sort = stateObject.sort;
-					console.log("stateObject.sort:");
-					console.log(typeof stateObject.sort);
+					if(this.debug) {
+						tableObj.debug("stateObject.sort:");
+						tableObj.debug(typeof stateObject.sort);
+					}
 					this.sortApply(tableObj, this.historyData.sort);
 				}
 				if(stateObject.filter != undefined) {
 					this.historyData.filter = stateObject.filter;
-					console.log("stateObject.filter:");
-					console.log(stateObject.filter);
+					if(this.debug) { 
+						tableObj.debug("stateObject.filter:");
+						tableObj.debug(stateObject.filter);
+					}
 					this.filterApply(tableObj, this.historyData.filter);
 				}
 
 				if(stateObject.pager != undefined) {
-					console.log("stateObject.pager:");
-					console.log(stateObject.pager);
+					if(this.debug) {
+						tableObj.debug("stateObject.pager:");
+						tableObj.debug(stateObject.pager);
+					} 
 					this.historyData.pager = stateObject.pager;
 					this.pagerApply(tableObj, this.historyData.pager);
 				}
@@ -74,13 +79,13 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 		},
 		
 		pagerApply: function(tableObj, data) {
-			console.log('Apply pager history');
+			if(this.debug) tableObj.debug('Apply pager history');
 			if(data.limit != undefined) {
 				tableObj.config.limit = data.limit;
 				tableObj.config.$element.SleepyTable('plugin.pager.setLimit', data.limit);
 			}
 			if(data.page != undefined) {
-				console.log('Apply page history');
+				if(this.debug) tableObj.debug('Apply page history');
 				setTimeout(
 					function() { 
 						tableObj.config.$element.SleepyTable('setPage', parseInt(data.page)); 
@@ -95,21 +100,21 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 		
 		sortApply: function(tableObj, data) {
 			if(data != undefined) {
-				console.log('Applying sort');
-				console.log(data);
+				if(this.debug) tableObj.debug('Applying sort');
+				if(this.debug) tableObj.debug(data);
 				tableObj.config.$element.SleepyTable('plugin.sort.setSort', data);
 			}
 		},
 		
 		filterChange: function(tableObj, data) {
-			console.log('History: Filter change!!');
+			if(this.debug) tableObj.debug('History: Filter change!!');
 			this.historyData.filter = data;
 			this.pushHistory(this.historyData, 'filterChange');
 		},
 		
 		filterApply: function(tableObj, data) {
 			if(data != undefined) {
-				console.log(data);
+				if(this.debug) tableObj.debug(data);
 				for(var column in data) {
 					tableObj.config.$element.SleepyTable('plugin.filter.set', column, data[column] ,true);
 				}
@@ -120,7 +125,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 		//Helper Methods
 		pushHistory: function(data, eventName) {
 			
-			console.log(this.historyData);
+			if(this.debug) tableObj.debug(this.historyData);
 			history.pushState(
 				$.extend({}, {'event': eventName}, data),
 				null,

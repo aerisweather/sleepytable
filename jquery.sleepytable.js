@@ -145,6 +145,7 @@
 				if(typeof($.fn.SleepyTable.plugins[pluginName]) === "object") {
 					pluginBase = $.fn.SleepyTable.plugins[pluginName];
 					plugin = $.extend(true, {}, pluginBase, this.config.pluginOptions[pluginName]);
+					plugin.name = pluginName;
 					this.plugins.push(plugin);
 					if(typeof(plugin.init) == 'function') {
 						plugin.init(this);
@@ -640,7 +641,27 @@
 					}
 					//console.log(pluginMethod+' '+args[0]);
 					if(pluginMethod === false) {
-						throw "Unknown method: " + args[0];
+						if(pluginName) {
+							var methodParts = args[0].split('.');
+							var pluginFound = false;
+							for(pluginCursor in sleepyTable.plugins) {
+								if(sleepyTable.plugins[pluginCursor].name == methodParts[1]) {
+									pluginFound = true;
+									break;
+								}
+							}
+							if(!pluginFound) {
+								if(sleepyTable.config.debug)
+									debug('Plugin: '+methodParts[1]+' isn\'t loaded');
+							}
+							else {
+								if(sleepyTable.config.debug)
+									debug(methodParts[1]+' Plugin Method: '+methodParts[2]+' isn\'t a valid method');
+							}
+						}
+						else {
+							throw "Unknown method: " + args[0];
+						}
 					}
                 }
                 

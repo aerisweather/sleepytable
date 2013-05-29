@@ -77,6 +77,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 				this.$limitElement
 					.off('change.SleepyTable.plugin.pager')
 					.on('change.SleepyTable.plugin.pager', function(e) {
+						e.preventDefault();
 						tableObj.config.currentPageNumber = 1;
 						thisPlugin.getFetchParams(tableObj, {});
 						tableObj.config.$element.SleepyTable('clearPages');
@@ -87,7 +88,6 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 								page: 1
 							}
 						);
-						e.preventDefault();
 					});
 				this.$limitElement.parent()
 					.off('click.SleepyTable.plugin.pager')
@@ -199,6 +199,9 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 			this.$element.find(button.selector)
 				.off('click.SleepyTable.plugin.pager')
 				.on('click.SleepyTable.plugin.pager', function(e) {
+					if(pagerPlugin.preventEventBubbling == true) {
+						e.preventDefault();
+					}
 					tableObj.config.$element.SleepyTable(button.method);
 					tableObj.config.$element.SleepyTable(
 						'plugin.history.pagerChange',
@@ -207,9 +210,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 							page: parseInt(tableObj.config.currentPageNumber)
 						}
 					);
-					if(pagerPlugin.preventEventBubbling == true) {
-						e.preventDefault();
-					}
+					
 				})
 				.parent().removeClass('disabled');
 		},
@@ -225,10 +226,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 		},
 		
 		setLimit: function(tableObj, limit) {
-			console.log(limit);
-			console.log("Setting pager limit to "+limit);
 			this.$limitElement.val(limit);
-			console.log(this.$limitElement);
 		}
 	}
 })(jQuery);
