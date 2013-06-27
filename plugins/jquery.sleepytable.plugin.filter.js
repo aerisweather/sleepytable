@@ -13,7 +13,8 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 		 * - enabled - Bool - If sorting should be enabled or not on this table.
 		 * Example: filterOptions: {0: {enabled: false}}
 		 * Example: filterOptions: {2: {type: select, source: [url]}}
-		 * Example: filterOptions: {1: {placeholder: [text]}}
+		 * Example: filterOptions: {1: {placeholder: [text]}},
+		 * Example: filterOptions: {1: {source: [url], dataType: json, optionValueField: "id"}} - Use the value of optionValueField as value for the option element.
 		 */
 		columnOptions    : {},
 		sleepTime        : 700,
@@ -66,6 +67,7 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 										path: filterPlugin.columnOptions[i].options,
 										placeholder: filterPlugin.columnOptions[i].placeholder,
 										value: filterPlugin.columnOptions[i].value,
+										optionValueField: filterPlugin.columnOptions[i].optionValueField,
 										getDynamicPath: filterPlugin.getDynamicPath,
 										debug: filterPlugin.debug
 									},
@@ -74,12 +76,19 @@ $.fn.SleepyTable.plugins = $.fn.SleepyTable.plugins || {};
 											elements =  eval('data.'+pathParts[0]),
 											i,
 											display,
-											options = '';
+											options = '',
+											optionsValue = '';
 										if(this.debug) tableObj.debug('Filter value: ' + this.columnId + " to " + this.value);
 										for (i in elements) {
 											display = eval('data.'+this.getDynamicPath(this.path, i));
 											if (display !== undefined) {
-												options += '<option value="'+i+'">'+display.toString()+'</option>';
+												if(this.optionValueField != undefined) {
+													optionsValue = eval('data.'+this.getDynamicPath(this.optionValueField, i));
+													options += '<option value="'+optionsValue+'">'+display.toString()+'</option>';
+												}
+												else {
+													options += '<option value="'+i+'">'+display.toString()+'</option>';
+												}
 											}
 										}
 										this.$element.find('option').html(this.placeholder||'Choose filter...');
