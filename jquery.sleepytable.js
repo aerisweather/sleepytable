@@ -491,8 +491,23 @@
 								}
 							}
 							
-							//Column centric, columns define where to get the data
-							if(this.config.$headers.length) {
+							if(this.config.rawRowDataSelection != null) {
+								//Row centric approach. Columns don't define where to get data.
+								rows = eval('data.'+this.config.rawRowDataSelection);
+								if(rows && rows.length) {
+									for(i in rows) {
+										if (typeof(pageData.rows[i]) == "undefined") 
+											pageData.rows[i] = { content: []};
+										for(var key in rows[i]) {
+											colValue = rows[i][key];
+											pageData.rows[i].content.push({ content: colValue })
+										}
+										
+									}
+								}
+							}
+							else if(this.config.$headers.length) {
+								//Column centric, columns define where to get the data
 								this.config.$headers.each(function(index) {
 									try {
 										if($(this).data('src') != undefined) {
@@ -509,22 +524,7 @@
 									catch (e) { }
 								});
 								row++;
-							}
-							else if(this.config.rawRowDataSelection != null) {
-								//Row centric approach. Columns don't define where to get data.
-								rows = eval('data.'+this.config.rawRowDataSelection);
-								if(rows && rows.length) {
-									for(i in rows) {
-										if (typeof(pageData.rows[i]) == "undefined") 
-											pageData.rows[i] = { content: []};
-										for(var key in rows[i]) {
-											colValue = rows[i][key];
-											pageData.rows[i].content.push({ content: colValue })
-										}
-										
-									}
-								}
-							}
+							} 
 						}
 						while(moreRows);
 						
